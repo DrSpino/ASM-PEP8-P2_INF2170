@@ -1,0 +1,1 @@
+specs https://info.uqam.ca/~privat/INF2170/TP2/
