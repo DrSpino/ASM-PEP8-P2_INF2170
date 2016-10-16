@@ -41,7 +41,7 @@ public class Dessin {
 	 **/
 	public static void affiche(){
 		for (int i = 0; i < dessin.length ; i++){
-			System.out.print(dessin[i]);
+			Pep8.charo(dessin[i]);
 		}
 	}
 	
