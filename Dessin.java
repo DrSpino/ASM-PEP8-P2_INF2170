@@ -8,30 +8,35 @@ public class Dessin {
 	 **/
 	static char [][] dessin = new char[34][18];
 	
+	/*Methode servant a dessiner un signe sur un point precis.*/
+	public static void dessiner(char signe, int colonne, int ligne){
+		dessin[colonne][ligne] = signe ;
+	}
+	
 	/*Methode d'initialisation du canevas*/
 	public static void canevas(){
 		
-		dessin[0][0] = '+';
+		dessiner('+',0,0);
 		for(int c = 1; c <= 32; c++){
-			dessin[c][0] = '-';
+			dessiner('-',c,0);
 		}
-		dessin[33][0] = '+';
+		dessiner('+',33,0);
 		
 		for(int l = 1; l <= 16; l++){
 			for(int c = 0; c <= 33; c++){
 				if(c == 0 || c == 33){
-					dessin[c][l] = '|';
+					dessiner('|',c,l);;
 				}else{
-					dessin[c][l] = ' ';
+					dessiner(' ',c,l);
 				}
 			}
 		}
 		
-		dessin[0][17] = '+';
+		dessiner('+',0,17);
 		for(int c = 1; c <= 32; c++){
-			dessin[c][17] = '-';
+			dessiner('-',c,17);
 		}
-		dessin[33][17] = '+';
+		dessiner('+',33,17);
 	}
 	
 	/*Methode pour dessiner un point*/
@@ -41,19 +46,20 @@ public class Dessin {
 		int ligne = Pep8.deci();
 		
 		if(colonne < 32 && colonne >= 0 && ligne < 16 && ligne >= 0){
-			dessin[colonne+1][ligne+1] = signe;
+			dessiner(signe,colonne+1,ligne+1);
 		}
 	}
+	
 	/*
 	 *Methode d'affichage.
 	 * affiche ce qu'il y a dans le tableau dessin.
 	 **/
 	public static void  affiche(){
 		for(int l = 17; l >= 0; l--){
+			Pep8.charo('\n');
 			for(int c = 0; c <= 33; c++){
 				Pep8.charo(dessin[c][l]);
 			}
-			Pep8.charo('\n');
 		}
 	}
 	
