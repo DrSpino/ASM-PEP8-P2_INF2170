@@ -13,6 +13,19 @@ public class Dessin {
 		dessin[colonne][ligne] = signe ;
 	}
 	
+	/*
+	 *Methode d'affichage.
+	 * affiche ce qu'il y a dans le tableau dessin.
+	 **/
+	public static void  affiche(){
+		for(int l = 17; l >= 0; l--){
+			Pep8.charo('\n');
+			for(int c = 0; c <= 33; c++){
+				Pep8.charo(dessin[c][l]);
+			}
+		}
+	}
+	
 	/*Methode d'initialisation du canevas*/
 	public static void canevas(){
 		
@@ -45,20 +58,72 @@ public class Dessin {
 		int colonne = Pep8.deci();
 		int ligne = Pep8.deci();
 		
-		if(colonne < 32 && colonne >= 0 && ligne < 16 && ligne >= 0){
+		if(colonne <= 32 && colonne >= 0 && ligne <= 16 && ligne >= 0){
 			dessiner(signe,colonne+1,ligne+1);
 		}
 	}
 	
-	/*
-	 *Methode d'affichage.
-	 * affiche ce qu'il y a dans le tableau dessin.
-	 **/
-	public static void  affiche(){
-		for(int l = 17; l >= 0; l--){
-			Pep8.charo('\n');
-			for(int c = 0; c <= 33; c++){
-				Pep8.charo(dessin[c][l]);
+	/*Methode pour dessiner un rectangle*/
+	public static void rectangle(){
+		char signe = Pep8.chari();
+		int colonne1 = Pep8.deci();
+		int ligne1 = Pep8.deci();
+		int colonne2 = Pep8.deci();
+		int ligne2 = Pep8.deci();
+		
+		if(colonne1 > colonne2){
+			int transition = colonne1;
+			colonne1 = colonne2;
+			colonne2 = transition;
+		}
+		if(ligne1 > ligne2){
+			int transition = ligne1;
+			ligne1 = ligne2;
+			ligne2 = transition;
+		}
+		
+		for(int c = colonne1; c <= colonne2; c++){
+			for(int l = ligne1; l <= ligne2; l++){
+				if(c <= 32 && c >= 0 && l <= 16 && l >= 0){
+					if(l == ligne1 || l == ligne2
+							|| c == colonne1 || c == colonne2){
+						dessiner(signe,c,l);
+					}
+				}
+			}
+		}
+	}
+	
+	/*Methode pour dessiner un rectangle remplit*/
+	public static void remplit(){
+		char signeBord = Pep8.chari();
+		char signeInterieur = Pep8.chari();
+		int colonne1 = Pep8.deci();
+		int ligne1 = Pep8.deci();
+		int colonne2 = Pep8.deci();
+		int ligne2 = Pep8.deci();
+		
+		if(colonne1 > colonne2){
+			int transition = colonne1;
+			colonne1 = colonne2;
+			colonne2 = transition;
+		}
+		if(ligne1 > ligne2){
+			int transition = ligne1;
+			ligne1 = ligne2;
+			ligne2 = transition;
+		}
+		
+		for(int c = colonne1; c <= colonne2; c++){
+			for(int l = ligne1; l <= ligne2; l++){
+				if(c <= 32 && c >= 0 && l <= 16 && l >= 0){
+					if(l == ligne1 || l == ligne2
+							|| c == colonne1 || c == colonne2){
+						dessiner(signeBord,c,l);
+					}else{
+						dessiner(signeInterieur,c,l);
+					}
+				}
 			}
 		}
 	}
@@ -76,6 +141,10 @@ public class Dessin {
 				affiche();
 			}else if(commande == 'p'){
 				point();
+			}else if(commande == 'r'){
+				rectangle();
+			}else if(commande == 'b'){
+				remplit();
 			}
 			commande = Pep8.chari();
 		}
