@@ -95,7 +95,7 @@ public class Dessin {
 	}
 	
 	/*Methode pour dessiner un rectangle remplit*/
-	public static void remplit(){
+	public static void surface(){
 		char signeBord = Pep8.chari();
 		char signeInterieur = Pep8.chari();
 		int colonne1 = Pep8.deci()+1;
@@ -144,7 +144,7 @@ public class Dessin {
 			}else if(commande == 'r'){
 				rectangle();
 			}else if(commande == 'b'){
-				remplit();
+				surface();
 			}
 			commande = Pep8.chari();
 		}
