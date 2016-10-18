@@ -66,10 +66,10 @@ public class Dessin {
 	/*Methode pour dessiner un rectangle*/
 	public static void rectangle(){
 		char signe = Pep8.chari();
-		int colonne1 = Pep8.deci();
-		int ligne1 = Pep8.deci();
-		int colonne2 = Pep8.deci();
-		int ligne2 = Pep8.deci();
+		int colonne1 = Pep8.deci()+1;
+		int ligne1 = Pep8.deci()+1;
+		int colonne2 = Pep8.deci()+1;
+		int ligne2 = Pep8.deci()+1;
 		
 		if(colonne1 > colonne2){
 			int transition = colonne1;
@@ -98,10 +98,10 @@ public class Dessin {
 	public static void remplit(){
 		char signeBord = Pep8.chari();
 		char signeInterieur = Pep8.chari();
-		int colonne1 = Pep8.deci();
-		int ligne1 = Pep8.deci();
-		int colonne2 = Pep8.deci();
-		int ligne2 = Pep8.deci();
+		int colonne1 = Pep8.deci()+1;
+		int ligne1 = Pep8.deci()+1;
+		int colonne2 = Pep8.deci()+1;
+		int ligne2 = Pep8.deci()+1;
 		
 		if(colonne1 > colonne2){
 			int transition = colonne1;
