@@ -1,25 +1,25 @@
 ;Boucle principal du dessin,
 ;Permet d'entrer une commande de l'afficher
 ;et de quitter.
-loop:    CALL    canevas     ;
-         CHARI   command,d   ;
+         CALL    canevas     ;
+loop:    CHARI   command,d   ; command = lireChar()
          LDBYTEA command,d   ;
          CPA     'q',i       ;
-         BREQ    fin         ;while(command != 'q') {
+         BREQ    fin         ; while(command != 'q') {
 ;vider canevas
          CPA     'z',i       ;
          BRNE    afficher    ;    if(command == 'z') {
-         CALL    canevas     ;        canevas();
+         CALL    canevas     ;        canevas()
          BR      loop        ;
 ;afficher dessin
 afficher:CPA     'a',i       ;
-         BRNE    point       ;    }else if(command == 'a'){
-         CALL    affiche     ;        affiche();
+         BRNE    lePoint     ;    }else if(command == 'a'){
+         CALL    affiche     ;        affiche()
          BR      loop        ;
 ; dessiner un point
-point:   CPA     'p',i       ;
+lePoint: CPA     'p',i       ;
          BRNE    rect        ;    }else if(command == 'p'){
-         CHARO   'p',i       ;        print(p);
+         CALL    point       ;        point()
          BR      loop        ;
 ;dessiner un rectangle        
 rect:    CPA     'r',i       ;
@@ -42,7 +42,7 @@ remplit: CPA     'f',i       ;
          CHARO   'f',i       ;        print(r); }
          BR      loop        ; }
 ;
-;Methode canevas
+;Fonction canevas
 ;Lorsqu'on appel cette methode on creer
 ;un canevas vide.
 ;
@@ -95,8 +95,32 @@ loopHaut:CPX     593,i       ;
 finCan:  LDBYTEA '+',i       ;
          STBYTEA dessin,x    ; dessin[33][17] = '+'
          ret0                ;
+;              
+;Fonction Point
+;Permet de dessiner un point
+;a un endroit precis.
+point:   CHARI   signe,d     ; signe = lireChar()
+         DECI    colonne,d   ; colonne = lireInt()
+         DECI    ligne,d     ; ligne = lireInt()
+         LDX     colonne,d   ;
+         CPX     32,i        ;
+         BRGT    finPoint    ; if( colonne <= 32){
+         CPX     0,i         ;
+         BRLT    finPoint    ;    if(colonne >= 0){
+         LDX     ligne,d     ;
+         CPX     16,i        ;
+         BRGT    finPoint    ;        if(ligne <= 16){
+         CPX     0,i         ;
+         BRLT    finPoint    ;            if(ligne >= 0){
+         CALL    cMulti      ;
+dessinP: STA     colonne,d   ;
+         LDX     colonne,d   ;
+         ADDX    ligne,d     ;
+         LDBYTEA signe,d     ;
+         STBYTEA dessin,x    ;                dessin[c][l] = signe
+finPoint:ret0                ;}}}}
 ;
-;Methode affiche
+;Fonction affiche
 ;Permet d'afficher le tableau et donc de dessiner
 ;ce qu'il il y'a a l'interieur.
 affiche: LDX     17,i        ;
@@ -116,12 +140,25 @@ next:    LDX     l,d         ;
          BR      loop_l      ;}
 finAff:  ret0   
 ;
+;Petite fonction qui sert a
+; multiplier la colonne par 18.
+cMulti:  LDX     0,i         ;
+         LDA     colonne,d   ;
+loopMult:CPX     17,i        ;
+         BRGE    finMult     ; for (int i = 0; i < 17; i++){
+         ADDA    colonne,d   ;    colonne = colonne+colonne
+         ADDX    1,i         ;         
+         BR      loopMult    ; }
+finMult: ret0                ;
 ;
 ;fin du programme   
 fin:     STOP                ;
 ;
 dessin:  .BLOCK 612          ;#1c612a // contient toute les valeurs du dessin
 command: .BLOCK 1            ;#1c
+signe:   .BLOCK 1            ;#1c
+ligne:   .BLOCK 2            ;#2d
+colonne: .BLOCK 2            ;#2d
 c:       .BLOCK 1            ;#1c 
 cx:      .WORD 18            ;utilise pour sauter de 18 octets
 l:       .BLOCK 1            ;#1c
