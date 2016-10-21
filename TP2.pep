@@ -61,12 +61,18 @@ loopMid: STX     l,d         ;
          BRGT    loopBot     ; for (int l = 1; l <= 16; l++){
          LDX     0,i         ;
          ADDX    l,d         ;
+         LDBYTEA '/',i       ;
+         STBYTEA dessin,x    ;
 loopMidc:CPX     594,i       ;
-         BRGT    nexti       ;    for(int c = 0; c <= 33//594; c++//++18){
+         BRGT    nextp       ;    for(int c = 0; c <= 33//594; c++//++18){
          ADDX    cx,d        ;
+         LDBYTEA '*',i       ;
+         STBYTEA dessin,x    ;
          BR      loopMidc    ;    }
+nextp:   LDBYTEA '/',i       ;
+         STBYTEA dessin,x    ;
          LDX     l,d         ;
-         ADDX    1,i        ;
+         ADDX    1,i         ;
          BR      loopMid     ;}
 ;
 ;
@@ -92,13 +98,13 @@ loop_l:  STX     l,d         ;
          CHARO   '\n',i      ;    SOP('\n');
          LDX     0,i         ;
          ADDX    l,d         ;
-loop_c:  CPX     594,i      ;
+loop_c:  CPX     612,i       ;
          BRGT    next        ;    for(int c = 0; c <= 33; c++){    
          CHARO   dessin,x    ;        SOP(dessin[c][l]);
          ADDX    cx,d        ;
          BR      loop_c      ;    }
 next:    LDX     l,d         ;         
-         SUBX    1,i        ;
+         SUBX    1,i         ;
          BR      loop_l      ;}
 finAff:  ret0   
 ;
