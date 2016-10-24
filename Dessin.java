@@ -206,28 +206,28 @@ public class Dessin {
     	char signe = Pep8.chari();
         int colonne = Pep8.deci()+1;
         int ligne = Pep8.deci()+1;
-        char vag = dessin[colonne][ligne];
-        remplit(vag,signe,colonne,ligne);     
+        char base = dessin[colonne][ligne];
+        remplit(base,signe,colonne,ligne);     
 
     }
     /*Méthode recursive remplit*/
-    public static void remplit(char vag,char signe,int colonne,int ligne){
+    public static void remplit(char base,char signe,int colonne,int ligne){
     	dessin[colonne][ligne] = signe;
         
-        if(dessin[colonne+1][ligne] == vag){
-        	remplit(vag,signe,colonne+1,ligne);
+        if(dessin[colonne+1][ligne] == base){
+        	remplit(base,signe,colonne+1,ligne);
         }
         
-        if(dessin[colonne-1][ligne] == vag){
-        	remplit(vag,signe,colonne-1,ligne);
+        if(dessin[colonne-1][ligne] == base){
+        	remplit(base,signe,colonne-1,ligne);
         }
         
-        if(dessin[colonne][ligne+1] == vag){
-        	remplit(vag,signe,colonne,ligne+1);
+        if(dessin[colonne][ligne+1] == base){
+        	remplit(base,signe,colonne,ligne+1);
         }
         
-        if(dessin[colonne][ligne-1] == vag){
-        	remplit(vag,signe,colonne,ligne-1);
+        if(dessin[colonne][ligne-1] == base){
+        	remplit(base,signe,colonne,ligne-1);
         }
     }
 
