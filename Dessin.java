@@ -19,10 +19,10 @@ public class Dessin {
      **/
     public static void  affiche(){
         for(int l = 17; l >= 0; l--){
-            Pep8.charo('\n');
             for(int c = 0; c <= 33; c++){
                 Pep8.charo(dessin[c][l]);
             }
+            Pep8.charo('\n');
         }
     }
 
@@ -84,7 +84,7 @@ public class Dessin {
 
         for(int c = colonne1; c <= colonne2; c++){
             for(int l = ligne1; l <= ligne2; l++){
-                if(c <= 32 && c >= 0 && l <= 16 && l >= 0){
+                if(c <= 32 && c > 0 && l <= 16 && l > 0){
                     if(l == ligne1 || l == ligne2
                             || c == colonne1 || c == colonne2){
                         dessiner(signe,c,l);
@@ -116,7 +116,7 @@ public class Dessin {
 
         for(int c = colonne1; c <= colonne2; c++){
             for(int l = ligne1; l <= ligne2; l++){
-                if(c <= 32 && c >= 0 && l <= 16 && l >= 0){
+                if(c <= 32 && c > 0 && l <= 16 && l > 0){
                     if(l == ligne1 || l == ligne2
                             || c == colonne1 || c == colonne2){
                         dessiner(signeBord,c,l);
@@ -147,7 +147,7 @@ public class Dessin {
         int err = dx + dy;
 
         while (x1 != x2 || y1 !=y2) {
-        	if(x1 <= 32 && x1 >= 0 && y1 <= 16 && y1 >= 0){
+        	if(x1 <= 32 && x1 > 0 && y1 <= 16 && y1 > 0){
         		dessiner(carac,x1, y1);
         	}
             int e2 = multiplication(2,err);
@@ -160,7 +160,7 @@ public class Dessin {
                 y1 += sy;
             }
         }
-        if(x1 <= 32 && x1 >= 0 && y1 <= 16 && y1 >= 0){
+        if(x1 <= 32 && x1 > 0 && y1 <= 16 && y1 > 0){
             dessiner(carac,x1, y1);
         }
     }
