@@ -160,12 +160,12 @@ loopRecL:CPX     ligne2,d    ;
          CPX     16,i        ;
          BRGT    passeRec    ;       
          CPX     0,i         ;
-         BRLT    passeRec    ;           
+         BRLE    passeRec    ;           
          LDX     cSync,d     ;
          CPX     576,i       ;
          BRGT    passeRec    ;
          CPX     0,i         ;
-         BRLT    passeRec    ;        if(lSync<= 16 && lSync >= 0 && cSync <= 32 && cSync >=0 ){
+         BRLE    passeRec    ;        if(lSync<= 16 && lSync >= 0 && cSync <= 32 && cSync >=0 ){
 ;Permet de dessiner uniquement sur les cotes du rectangle
          LDX     lSync,d     ;
          CPX     ligne,d     ;
@@ -230,12 +230,12 @@ loopSurL:CPX     ligne2,d    ;
          CPX     16,i        ;
          BRGT    passeSur    ;       
          CPX     0,i         ;
-         BRLT    passeSur    ;           
+         BRLE    passeSur    ;           
          LDX     cSync,d     ;
          CPX     576,i       ;
          BRGT    passeSur    ;
          CPX     0,i         ;
-         BRLT    passeSur    ;        if(lSync<= 16 && lSync >= 0 && cSync <= 32 && cSync >=0 ){
+         BRLE    passeSur    ;        if(lSync<= 16 && lSync >= 0 && cSync <= 32 && cSync >=0 ){
 ;Permet de dessiner soit les cotes soit l'interieur
          LDX     lSync,d     ;
          CPX     ligne,d     ;
@@ -275,8 +275,7 @@ finSurf: ret0                ;
 affiche: LDX     17,i        ;
 loop_l:  STX     l,d         ;
          CPX     0,i         ;
-         BRLT    finAff      ; for(int l = 17; l >= 0; l--){
-         CHARO   '\n',i      ;    SOP('\n');
+         BRLT    finAff      ; for(int l = 17; l >= 0; l--){        
          LDX     0,i         ;
          ADDX    l,d         ;
 loop_c:  CPX     611,i       ;
@@ -284,7 +283,8 @@ loop_c:  CPX     611,i       ;
          CHARO   dessin,x    ;        SOP(dessin[c][l]);
          ADDX    cx,d        ;
          BR      loop_c      ;    }
-next:    LDX     l,d         ;         
+next:    CHARO   '\n',i      ;    SOP('\n');
+         LDX     l,d         ;         
          SUBX    1,i         ;
          BR      loop_l      ;}
 finAff:  ret0   
