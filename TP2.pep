@@ -41,7 +41,7 @@ segment: CPA     'l',i       ;
 ;remplire
 remplit: CPA     'f',i       ;
          BRNE    loop        ;     }else if(command == 'f'){
-         CHARO   'f',i       ;        print(r); }
+         CALL    remplire    ;        remplit()
          BR      loop        ; }
 ;
 ;
@@ -288,6 +288,98 @@ next:    CHARO   '\n',i      ;    SOP('\n');
          SUBX    1,i         ;
          BR      loop_l      ;}
 finAff:  ret0   
+;
+;
+;Fonction remplissage
+remplire:CHARI   signe,d     ; signe = lireChar();
+         DECI    colonne,d   ; colonne = lireInt();
+         DECI    ligne,d     ; ligne = lireInt();
+         CALL    cMulti      ;
+         LDX     colonne,d   ;
+         ADDX    ligne,d     ;
+         LDBYTEA dessin,x    ;
+         STBYTEA signe2,d    ; signe2 = dessin[c][l]
+         CALL    remplis     ; remplis();
+         ret0
+;fonction Recursive de remplissage
+remplis: SUBSP   4,i         ; #cPile #lPile 
+         LDA     colonne,d   ; 
+         STA     cPile,s     ; 
+         LDA     ligne,d     ;
+         STA     lPile,s     ; 
+;
+         LDX     cPile,s     ; 
+         ADDX    lPile,s     ;
+         LDBYTEA signe,d     ;
+         STBYTEA dessin,x    ; dessin[c][l] = signe
+;
+         LDX     cPile,s     ;
+         ADDX    cx,d        ;
+         STX     colonne,d   ;
+         LDA     lPile,s     ;
+         STA     ligne,d     ;
+         ADDX    lPile,s     ;  
+         CPX     0,i         ;
+         BRLT    cNega       ;
+         CPX     612,i       ;
+         BRGT    cNega       ;
+         LDBYTEA dessin,x    ; 
+         CPA     ' ',i       ; 
+         BRNE    cNega       ; if (signe2 == dessin[c+1][l]){
+         CALL    remplis     ;    remplis();
+;                              }    
+cNega:   LDX     cPile,s     ; 
+         SUBX    cx,d        ;
+         STX     colonne,d   ;
+         LDA     lPile,s     ;
+         STA     ligne,d     ;
+         ADDX    lPile,s     ;
+         CPX     0,i         ;
+         BRLT    lPositif    ;
+         CPX     612,i       ;
+         BRGT    lPositif    ; 
+         LDBYTEA dessin,x    ;
+         CPA     ' ',i       ;
+         BRNE    lPositif    ; if(signe2 == dessin[c-1][l]){
+         CALL    remplis     ;    remplis();
+;                              }   
+lPositif:LDX     lPile,s     ;
+         ADDX    1,i         ;
+         STX     ligne,d     ;
+         LDA     cPile,s     ;
+         STA     colonne,d   ;
+         ADDX    cPile,s     ;
+         CPX     0,i         ;
+         BRLT    lNegatif    ;
+         CPX     612,i       ;
+         BRGT    lNegatif    ;
+         LDBYTEA dessin,x    ;
+         CPA     ' ',i       ;
+         BRNE    lNegatif    ; if(signe2 == dessin[c][l+1]){
+         CALL    remplis     ;    remplis();
+;                              }   
+lNegatif:LDX     lPile,s     ;
+         SUBX    1,i         ;
+         STX     ligne,d     ;
+         LDA     cPile,s     ;
+         STA     colonne,d   ;
+         ADDX    cPile,s     ;
+         CPX     0,i         ;
+         BRLT    finRecur    ;
+         CPX     612,i       ;
+         BRGT    finRecur    ; 
+         LDBYTEA dessin,x    ;
+         CPA     ' ',i       ;
+         BRNE    finRecur    ; if(signe2 == dessin[c][l-1]){
+         CALL    remplis     ;    remplis();
+;                              }   
+finRecur:ADDSP   4,i         ; #cPile #lPile   
+         ret0        
+;
+;
+cPile:   .EQUATE 2           ;#2d
+lPile:   .EQUATE 0           ;#2d
+test:    .BLOCK 1            ;#1c
 ;
 ;Petite fonction qui sert a
 ; multiplier la colonne par 18.
