@@ -298,7 +298,7 @@ remplire:CHARI   signe,d     ; signe = lireChar();
          LDX     colonne,d   ;
          ADDX    ligne,d     ;
          LDBYTEA dessin,x    ;
-         STBYTEA signe2,d    ; signe2 = dessin[c][l]
+         STBYTEA base,d    ; signe2 = dessin[c][l]
          CALL    remplis     ; remplis();
          ret0
 ;fonction Recursive de remplissage
@@ -323,8 +323,9 @@ remplis: SUBSP   4,i         ; #cPile #lPile
          BRLT    cNega       ;
          CPX     612,i       ;
          BRGT    cNega       ;
-         LDBYTEA dessin,x    ; 
-         CPA     ' ',i       ; 
+         LDA     dessin,x    ; 
+         LDBYTEA 0,i         ;
+         CPA     base,d      ; 
          BRNE    cNega       ; if (signe2 == dessin[c+1][l]){
          CALL    remplis     ;    remplis();
 ;                              }    
@@ -338,8 +339,9 @@ cNega:   LDX     cPile,s     ;
          BRLT    lPositif    ;
          CPX     612,i       ;
          BRGT    lPositif    ; 
-         LDBYTEA dessin,x    ;
-         CPA     ' ',i       ;
+         LDA     dessin,x    ; 
+         LDBYTEA 0,i         ;
+         CPA     base,d       ;
          BRNE    lPositif    ; if(signe2 == dessin[c-1][l]){
          CALL    remplis     ;    remplis();
 ;                              }   
@@ -353,8 +355,9 @@ lPositif:LDX     lPile,s     ;
          BRLT    lNegatif    ;
          CPX     612,i       ;
          BRGT    lNegatif    ;
-         LDBYTEA dessin,x    ;
-         CPA     ' ',i       ;
+         LDA     dessin,x    ; 
+         LDBYTEA 0,i         ;
+         CPA     base,d       ;
          BRNE    lNegatif    ; if(signe2 == dessin[c][l+1]){
          CALL    remplis     ;    remplis();
 ;                              }   
@@ -368,8 +371,9 @@ lNegatif:LDX     lPile,s     ;
          BRLT    finRecur    ;
          CPX     612,i       ;
          BRGT    finRecur    ; 
-         LDBYTEA dessin,x    ;
-         CPA     ' ',i       ;
+         LDA     dessin,x    ; 
+         LDBYTEA 0,i         ;
+         CPA     base,d       ;
          BRNE    finRecur    ; if(signe2 == dessin[c][l-1]){
          CALL    remplis     ;    remplis();
 ;                              }   
@@ -377,6 +381,7 @@ finRecur:ADDSP   4,i         ; #cPile #lPile
          ret0        
 ;
 ;
+base:    .BLOCK 1            ;#1c
 cPile:   .EQUATE 2           ;#2d
 lPile:   .EQUATE 0           ;#2d
 test:    .BLOCK 1            ;#1c
