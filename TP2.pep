@@ -499,8 +499,8 @@ true:    LDA     x1,d        ; x1 <= 32
          LDBYTEA carac,d     ;
          STBYTEA dessin,x    ;
 ;
-inte2:   LDA     2,i         ; int e2 = multiplication(2,err);
-         LDX     err,d       ;
+inte2:   LDX     2,i         ; int e2 = multiplication(2,err);
+         LDA     err,d       ;
          CALL    mul         ;
          STA     e2,d        ;
 ;
