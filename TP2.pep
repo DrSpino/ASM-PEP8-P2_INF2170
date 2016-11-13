@@ -423,26 +423,26 @@ plusUn:  LDA     ligne,d     ;
          RET0                ;
 ;
 tracer:  CHARI   carac,d     ; char segment_value = Pep8.chari();
-         DECO    x1,d        ; int colonne1 = Pep8.deci()+1;
+         DECI    x1,d        ; int colonne1 = Pep8.deci()+1;
          LDA     x1,d        ;
          ADDA    1,i         ;
          STA     x1,d        ;
-         DECO    y1,d        ; int ligne1 = Pep8.deci()+1;
+         DECI    y1,d        ; int ligne1 = Pep8.deci()+1;
          LDA     y1,d        ;
          ADDA    1,i         ;
          STA     y1,d        ;
-         DECO    x2,d        ; int colonne2 = Pep8.deci()+1;
+         DECI    x2,d        ; int colonne2 = Pep8.deci()+1;
          LDA     x2,d        ;
          ADDA    1,i         ;
          STA     x2,d        ;
-         DECO    y2,d        ; int ligne2= Pep8.deci()+1;
+         DECI    y2,d        ; int ligne2= Pep8.deci()+1;
          LDA     y2,d        ;
-         ADDA    1,i         
+         ADDA    1,i         ;
          STA     y2,d        ;
          LDA     x2,d        ;int dx = abs(x2 - x1);
          SUBA    x1,d        ;
-;
          STA     int,d       ;
+;
          CALL    abs         ;
          LDA     absres,d    ;
          STA     dx,d        ;
@@ -475,12 +475,13 @@ tracer:  CHARI   carac,d     ; char segment_value = Pep8.chari();
 ;
 looptr:  LDA     x1,d        ; while (x1 != x2 || y1 !=y2)
          CPA     x2,d        ;
-         BREQ    traceout    ;
+         BRNE    true        ;
          LDA     y1,d        ;
          CPA     y2,d        ;
-         BREQ    traceout    ;
+         BRNE    true        ;
+         BR      traceout    ;
 ;
-         LDA     x1,d        ; x1 <= 32
+true:    LDA     x1,d        ; x1 <= 32
          CPA     32,i        ;
          BRGT    inte2       ;
          LDA     x1,d        ; x1 > 0
@@ -492,6 +493,11 @@ looptr:  LDA     x1,d        ; while (x1 != x2 || y1 !=y2)
          LDA     y1,d        ; y1 > 0
          CPA     0,i         ;
          BRLE    inte2       ;
+;
+         LDX     x1,d        ; dessiner(carac,x1, y1);
+         ADDX    y1,d        ;
+         LDBYTEA carac,d     ;
+         STBYTEA dessin,x    ;
 ;
 inte2:   LDA     2,i         ; int e2 = multiplication(2,err);
          LDX     err,d       ;
@@ -508,15 +514,22 @@ inte2:   LDA     2,i         ; int e2 = multiplication(2,err);
          ADDA    sx,d        ;
          STA     x1,d        ;
 ;
+         LDX     x1,d        ; dessiner(carac,x1, y1);
+         ADDX    y1,d        ;
+         LDBYTEA carac,d     ;
+         STBYTEA dessin,x    ;
+;
 nextif:  LDA     e2,d        ; if (e2 <= dx)
          CPA     dx,d        ;
-         BRGT    traceout    ;
+         BRGT    looptr      ;
          LDA     err,d       ; err += dx;
          ADDA    dx,d        ;
          STA     err,d       ;
          LDA     y1,d        ; y1 += sy;
          ADDA    sy,d        ;
          STA     y1,d        ;
+;
+         BR      looptr      
 ;
 traceout:LDA     x1,d        ; x1 <= 32
          CPA     32,i        ;
@@ -531,7 +544,7 @@ traceout:LDA     x1,d        ; x1 <= 32
          CPA     0,i         ;
          BRLE    out2        ;
 ;
-         LDX     x1,d        ;
+         LDX     x1,d        ; dessiner(carac,x1, y1);
          ADDX    y1,d        ;
          LDBYTEA carac,d     ;
          STBYTEA dessin,x    ;
