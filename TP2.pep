@@ -299,7 +299,13 @@ finAff:  RET0
 ;Fonction remplissage
 remplire:CHARI   signe,d     ; signe = lireChar();
          DECI    colonne,d   ; colonne = lireInt();
+         LDA     colonne,d   ;
+         ADDA    1,i         ;
+         STA     colonne,d   ;
          DECI    ligne,d     ; ligne = lireInt();
+         LDA     ligne,d     ;
+         ADDA    1,i         ;
+         STA     ligne,d     ; 
          CALL    cMulti      ;
          LDX     colonne,d   ;
          ADDX    ligne,d     ;
