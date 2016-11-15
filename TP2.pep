@@ -515,12 +515,6 @@ inte2:   LDX     2,i         ; int e2 = multiplication(2,err);
          ADDA    sx,d        ;
          STA     x1,d        ;
 ;
-         LDX     x1,d        ; dessiner(carac,x1, y1);
-         CALL    mul         ;
-         ADDX    y1,d        ;
-         LDBYTEA carac,d     ;
-         STBYTEA dessin,x    ;
-;
 nextif:  LDA     e2,d        ; if (e2 <= dx)
          CPA     dx,d        ;
          BRGT    looptr      ;
