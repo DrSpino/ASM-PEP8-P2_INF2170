@@ -105,7 +105,13 @@ finCan:  LDBYTEA '+',i       ;
 ;a un endroit precis.
 point:   CHARI   signe,d     ; signe = lireChar()
          DECI    colonne,d   ; colonne = lireInt()
+         LDA     colonne,d   ;
+         ADDA    1,i         ;
+         STA     colonne,d   ;
          DECI    ligne,d     ; ligne = lireInt()
+         LDA     ligne,d     ;
+         ADDA    1,i         ;
+         STA     ligne,d     ;
          LDX     colonne,d   ;
          CPX     32,i        ;
          BRGT    finPoint    ; if( colonne <= 32){
